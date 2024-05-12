@@ -37,7 +37,24 @@ const BiggerBox = styled.div`
   overflow: hidden;
 `;
 
-const boxVariants = {};
+const TestBoxContainer = styled(motion.ul)`
+  width: 500px;
+  height: 500px;
+  background-color: rgba(255,255,255,0.4);
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const TestBox = styled(motion.li)`
+  width: 50px;
+  height: 50px;
+  background-color: rgb(255,255,255);
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+`
+
+// const boxVariants = {};
 
 function App() {
   // useMotionValue로 만든 x는 상태가 아님 변해도 리렌더링이 일어나지 않음
@@ -67,6 +84,11 @@ function App() {
         dragConstraints={biggerBoxRef}
         whileHover={{ scale: 1.1, rotateZ: 10 }}
       />
+      <TestBoxContainer>
+        <TestBox drag dragSnapToOrigin/>
+        <TestBox drag dragSnapToOrigin/>
+        <TestBox drag dragSnapToOrigin/>
+      </TestBoxContainer>
     </Wrapper>
   );
 }
