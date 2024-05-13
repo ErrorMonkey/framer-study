@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { easeOut, motion, stagger, useMotionValue, Variants, useTransform, useScroll } from 'framer-motion';
 import { useMotionValueEvent } from 'framer-motion';
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 const Wrapper = styled(motion.div)`
-	height: 500vh;
+	height: 100vh;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
@@ -49,7 +51,27 @@ const TestBox = styled(motion.li)`
 
 // const boxVariants = {};
 
+const boxVariants = {
+	initial: {
+		opacity: 0,
+		scale: 0,
+	},
+	visible: {
+		opacity: 1,
+		scale: 1,
+		roatateZ: 460,
+	},
+	leaving: {
+		opacity: 0,
+		y: 10,
+	},
+};
+
 function App() {
+	const [showing, setShowing] = useState(false);
+	const toggleShowing = () => {
+		setShowing((prev) => !prev);
+	};
 	// useMotionValue로 만든 x는 상태가 아님 변해도 리렌더링이 일어나지 않음
 	// css의 translate를 이용해서 그런 게 아닐까 생각하고 있음
 	const x = useMotionValue(0);
@@ -79,15 +101,19 @@ function App() {
 
 	return (
 		<Wrapper style={{ background: gradient }}>
+			<button onClick={toggleShowing}>Click</button>
+			<AnimatePresence>
+				{showing ? <Box variants={boxVariants} initial="initial" animate="visible" exit="leaving" /> : null}
+			</AnimatePresence>
 			{/* <BiggerBox ref={biggerBoxRef}> */}
 			{/* <button onClick={() => x.set(200)}>click me</button> */}
-			<Box
+			{/* <Box
 				style={{ x, rotateZ, scale: scale }}
 				drag
 				dragSnapToOrigin
 				dragElastic={0.05}
 				// dragConstraints={biggerBoxRef}
-			/>
+			/> */}
 			{/* </BiggerBox> */}
 			{/* <Box drag dragConstraints={biggerBoxRef} whileHover={{ scale: 1.1, rotateZ: 10 }} />
 			<TestBoxContainer>
